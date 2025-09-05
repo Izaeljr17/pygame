@@ -13,7 +13,7 @@ pygame.display.set_caption("Janela Simples")
 BG_COLOR = (30, 30, 40) #cor de fundo (tom da imagem "RGB")
 
 #carregando imagem
-image_file = "player.png" #coloque o nome da imagem
+image_file = "pygame-main\player.png" #coloque o nome da imagem
 if os.path.exists(image_file):
     img = pygame.image.load(image_file).convert_alpha() #carregar imagem
     img_rect = img.get_rect(center=(WIDTH // 2, HEGHT // 2)) #centralizar imagem
@@ -33,7 +33,15 @@ while running:
     #pega as teclas precionadas
     keys = pygame.key.get_pressed()
 
-    #parei aqui
+    #movimentação da imagem
+    if keys[pygame.K_LEFT]:
+        img_rect.x -= SPEED #move para a esquerda
+    if keys[pygame.K_RIGHT]: 
+        img_rect.x += SPEED #Move para a direita
+    if keys[pygame.K_UP]: 
+        img_rect.y -= SPEED #move para cima
+    if keys[pygame.K_DOWN]:
+        img_rect.y += SPEED #move para baixo
 
     #preecher o fundo
     screen.fill(BG_COLOR)
