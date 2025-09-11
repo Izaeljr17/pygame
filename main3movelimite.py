@@ -6,7 +6,7 @@ pygame.init()
 
 #Definindo o tamanho da tela
 WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Janela Simples")
 
 #definindo a cor de fundo
@@ -26,7 +26,23 @@ SPEED = 1 #pixels por movimento
 #funçao para centralizar a imagem conforme o tamanho da tela 
 def centralize_imagem():
     global img_rect, WIDTH, HEIGHT
-    img_rect.center = WIDTH
+    img_rect.center = (WIDTH // 2, HEIGHT // 2)
+
+#variaveis para controle de redirecionamento
+last_width, last_heigth = WIDTH, HEIGHT
+
+#limite de movimento para que o personagem nao saia de tela
+def limit_moviment():
+    global img_rect, WIDTH, HEIGHT
+    #limita a posição da imagem para não sair da tela
+    if img_rect.left < 0:
+        img_rect.left = 0
+    if img_rect.right > WIDTH:
+        img_rect.right = WIDTH
+    if img_rect.top < 0:
+        img_rect.top = 0
+    if img_rect.bottom > HEIGHT:
+        img_rect.bottom = HEIGHT
 
 #Loop prrincipal do jogo
 running = True
