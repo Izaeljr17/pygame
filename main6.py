@@ -44,7 +44,12 @@ GRAVITY = 0.3 #gravidade para fazer o personagem cair
 JUNPING = False #indica se o personagem esta no ar 
 VELOCITY_Y = 0 #velocidade no eixo Y
 
-#parei aq
+#variaveis para o alvo chutado
+target_velocity_x = 0
+target_velocity_y = 0
+target_jumping = False
+target_gravity = GRAVITY
+
 
 #funçao para centralizar a imagem conforme o tamanho da tela 
 def centralize_imagem():
@@ -53,6 +58,7 @@ def centralize_imagem():
 
 #variaveis para controle de redirecionamento
 last_width, last_heigth = WIDTH, HEIGHT
+
 
 #limite de movimento para que o personagem nao saia de tela
 def limit_moviment():
@@ -87,6 +93,36 @@ def update_jump():
             JUNPING = False
             VELOCITY_Y = 0 #reseta a velocidade Y
 
+#atualizar o pulo / queda do alvo chutando
+def update_target_physics():
+    global target_velocity_x, target_velocity_y,target_jumping, target_rect, target_gravity
+
+    if target_jumping:
+        target_velocity_y += target_gravity
+        target_rect.x += target_velocity_x
+        target_rect.y += target_velocity_y
+
+        if target_rect.bottom >= HEIGHT:
+            target_rect.bottom = HEIGHT
+            target_jumping = False
+            target_velocity_x = 0
+            target_velocity_y = 0
+        else:
+            target_velocity_x *= 0.95
+
+#função chutar o alvo 
+def kick():
+    global target_velocity_x, target_velocity_y, target_jumping, target_rect, img_rect
+
+    dist_x = target_rect.centerx - img_rect.centerx
+    dist_y = target_rect.centery - img_rect.centery
+    distancia = (dist_x ** 2 + dist_y ** 2) ** 0,5
+
+    if distancia < 150:
+        target_velocity_x = 20 if dist_x > 0 else -20
+        target_velocity_y = -20
+        target_jumping = True
+
 #Loop prrincipal do jogo
 running = True
 while running:
@@ -96,12 +132,18 @@ while running:
     
     #verifica se o tamanho da janela foi alterada
     current_width, current_height = screen.get_size()
-
-    #se a janela foi redimencionada, centralizada a imagem
-    if current_width != last_width or current_height != last_height:
+    if current_width != last_width or current_height != last_heigth:
         WIDTH, HEIGHT = current_width, current_height
-        centralize_imagem() #centralize a imagem quando a janela mudar de tamanho
-        last_width, last_height = current_width, current_height
+
+        #manter personagens no chão 
+        img_rect.bottom = HEIGHT
+        target_rect.bottom = HEIGHT
+
+        if background_orig:
+            background = pygame.transform.scale(background_orig, (WIDTH, HEIGHT))
+        last_width, last_heigth = current_width, current_height
+
+        #parei aq
 
     #pega as teclas precionadas
     keys = pygame.key.get_pressed()
