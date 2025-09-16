@@ -33,7 +33,7 @@ def centralize_imagem():
     img_rect.center = (WIDTH // 2, HEIGHT // 2)
 
 #variaveis para controle de redirecionamento
-last_width, last_heigth = WIDTH, HEIGHT
+last_width, last_height = WIDTH, HEIGHT
 
 #limite de movimento para que o personagem nao saia de tela
 def limit_moviment():

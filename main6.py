@@ -23,7 +23,7 @@ else:
     img_rect = pygame.Rect(WIDTH // 2, HEIGHT // - 50, 50, 50) #retangular padrão para evitar erros
 
 #carregar a imagem do personagem alvo
-target_file = "patrick.png"
+target_file = "bola.png"
 if os.path.exists(target_file):
     target_img = pygame.image.load(target_file).convert_alpha()
     target_rect = pygame.Rect(WIDTH // 2 + 200, HEIGHT - 50, 50, 50)
