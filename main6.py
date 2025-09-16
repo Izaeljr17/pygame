@@ -161,12 +161,15 @@ while running:
     #pulo
     if keys[pygame.K_SPACE]:
         jump() #ativa o pulo
+    if keys[pygame.K_f]:
+        kick()
     
-    #limite de movimento para não sair da tela
-    limit_moviment()
+    limit_moviment(img_rect)
+    limit_moviment(target_rect)
 
-    #atualiza a fisica do pulo
+  
     update_jump()
+    update_target_physics()
 
     if background:
         screen.blit(background, (0, 0))
@@ -176,8 +179,15 @@ while running:
 
     if img:
         screen.blit(img, img_rect.topleft)
+    else:
+        pygame.draw.rect(screen, (255, 0, 0), img_rect)
 
-    #atualizando a tela
+    if target_img:
+        screen.blit(target_img, target_rect.topleft)
+    else:
+        pygame.draw.rect(screen, (0, 255, 0), target_rect)
+
+   #atualizando a tela
     pygame.display.flip()
 
 #Finalizar pygame
